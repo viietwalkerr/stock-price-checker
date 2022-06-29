@@ -8,6 +8,19 @@ const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
 
+const mongoose = require('mongoose');
+
+// import('dotenv').config();
+// import express from "express";
+// import bodyParser from "body-parser";
+// import cors from "cors";
+
+// import * as apiRoutes from "./routes/api.js";
+// import * as fccTestingRoutes from "./routes/fcctesting.js";
+// import  * as runner from "./test-runner.js";
+
+// import mongoose from "mongoose";
+
 const app = express();
 
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -39,6 +52,7 @@ app.use(function(req, res, next) {
 //Start our server and tests!
 const listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
+  console.log("nodenv", process.env.NODE_ENV);
   if(process.env.NODE_ENV==='test') {
     console.log('Running Tests...');
     setTimeout(function () {
@@ -50,6 +64,19 @@ const listener = app.listen(process.env.PORT || 3000, function () {
       }
     }, 3500);
   }
+});
+
+const mongoUri = process.env.DB;
+
+mongoose.connect(mongoUri, {
+  useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "Connection Error:"));
+db.once("Open", function () {
+  console.log("Database Connected!");
 });
 
 module.exports = app; //for testing
