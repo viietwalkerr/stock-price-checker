@@ -9,6 +9,7 @@ const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
 
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 
 // import('dotenv').config();
 // import express from "express";
@@ -22,6 +23,19 @@ const mongoose = require('mongoose');
 // import mongoose from "mongoose";
 
 const app = express();
+
+app.use(helmet({
+  frameguard: {
+    action: 'deny'
+  },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'"]
+    }
+  }
+}));
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
