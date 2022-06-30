@@ -64,8 +64,10 @@ app.use(function(req, res, next) {
 });
 
 //Start our server and tests!
-const listener = app.listen(process.env.PORT || 3000, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+// const listener = 
+app.listen(process.env.PORT || 3000, function () {
+  // console.log('Your app is listening on port ' + listener.address().port);
+  console.log("Your app is listening on port " + process.env.PORT);
   console.log("nodenv", process.env.NODE_ENV);
   if(process.env.NODE_ENV==='test') {
     console.log('Running Tests...');
@@ -84,12 +86,14 @@ const mongoUri = process.env.DB;
 
 mongoose.connect(mongoUri, {
   useUnifiedTopology: true,
-});
+})
+.catch((e) => console.error(e));
 
 const db = mongoose.connection;
+console.log("mongouri", mongoUri);
 
 db.on("error", console.error.bind(console, "Connection Error:"));
-db.once("Open", function () {
+db.once("open", function () {
   console.log("Database Connected!");
 });
 
