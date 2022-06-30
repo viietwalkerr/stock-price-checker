@@ -12,6 +12,7 @@ async function createStock(stock, like, ip) {
 }
 
 async function findStock(stock) {
+  console.log("Finding One");
   return await StockModel.findOne({ symbol: stock }).exec();
 }
 

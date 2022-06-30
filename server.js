@@ -53,6 +53,42 @@ app.route('/')
 //For FCC testing purposes
 fccTestingRoutes(app);
 
+//Mongo Connection
+const mongoUri = process.env.DB;
+
+// mongoose.connect(mongoUri, {
+//   useUnifiedTopology: true,
+// })
+// .catch((e) => console.error(e));
+
+// const db = mongoose.connection;
+// console.log("mongouri", mongoUri);
+
+// db.on("error", console.error.bind(console, "Connection Error:"));
+// db.once("open", function () {
+//   console.log("Database Connected!");
+// });
+const connectDatabase = async () => {
+  try {
+    mongoose.connect(mongoUri, {
+      useUnifiedTopology: true,
+    })
+    .catch((e) => console.error(e));
+    const db = mongoose.connection;
+    console.log("mongouri", mongoUri);
+
+    db.on("error", console.error.bind(console, "Connection Error:"));
+    db.once("open", function () {
+      console.log("Database Connected!");
+    });
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+connectDatabase();
+
 //Routing for API 
 apiRoutes(app);  
     
@@ -80,21 +116,6 @@ app.listen(process.env.PORT || 3000, function () {
       }
     }, 3500);
   }
-});
-
-const mongoUri = process.env.DB;
-
-mongoose.connect(mongoUri, {
-  useUnifiedTopology: true,
-})
-.catch((e) => console.error(e));
-
-const db = mongoose.connection;
-console.log("mongouri", mongoUri);
-
-db.on("error", console.error.bind(console, "Connection Error:"));
-db.once("open", function () {
-  console.log("Database Connected!");
 });
 
 module.exports = app; //for testing
