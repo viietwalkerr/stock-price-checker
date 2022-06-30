@@ -25,12 +25,12 @@ const helmet = require('helmet');
 const app = express();
 
 app.use(helmet({
-  frameguard: {
-    action: 'deny'
-  },
+  // frameguard: {
+  //   action: 'deny'
+  // },
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
+      // defaultSrc: ["'self'"],
       scriptSrc: ["'self'"],
       styleSrc: ["'self'"]
     }
